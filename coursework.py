@@ -85,8 +85,25 @@ def detect_and_draw_lines(video_source=0):
                             bottom[0] = downmost[0]
                             bottom[1] = downmost[1]
                             cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+                            
+                            degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                            cv2.putText(result_frame, f"J: {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
                         else:
                             max_shape = "Stop"
+                            center[0] = (topmost[0]+downmost[0])//2
+                            center[1] = (leftmost[1]+rightmost[1])//2
+                            cv2.circle(result_frame, (center[0],center[1]), 5, (30, 255, 255), 2)  # 黄色点
+                            bottom[0] = downmost[0]
+                            bottom[1] = downmost[1]
+                            cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+                            
+                            degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                            cv2.putText(result_frame, f"J:{480-10-topmost[1]}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+
                     elif 5 <= len(approx) < 13:
 
                         # # 绘制左上角、右上角和最低点、最高点
@@ -113,6 +130,12 @@ def detect_and_draw_lines(video_source=0):
                                 bottom[0] = downmost[0]
                                 bottom[1] = downmost[1]
                                 cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                                degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                cv2.putText(result_frame, f"L: {degree-90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                cv2.putText(result_frame, f"R: {degree+90}°", (20, 420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
                             else:
                                 max_shape = "T-junction"
                                 center[0] = (4*downmost[0]+3*(leftmost[0]+rightmost[0]))//10
@@ -121,6 +144,12 @@ def detect_and_draw_lines(video_source=0):
                                 bottom[0] = downmost[0]
                                 bottom[1] = downmost[1]
                                 cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                                degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                cv2.putText(result_frame, f"L: {degree-90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                cv2.putText(result_frame, f"R: {degree+90}°", (20, 420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
                         else:
                         # 判断左转和右转
@@ -133,6 +162,12 @@ def detect_and_draw_lines(video_source=0):
                                     bottom[0] = downmost[0]
                                     bottom[1] = downmost[1]
                                     cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                                    degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                    cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                    cv2.putText(result_frame, f"L: {degree-90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
                                 else:
                                     max_shape = "Left Turn"
                                     if abs(topmost[0]-leftmost[0])<55 or abs(topmost[0]-downmost[0])>55:
@@ -144,6 +179,13 @@ def detect_and_draw_lines(video_source=0):
                                     bottom[0] = downmost[0]
                                     bottom[1] = downmost[1]
                                     cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                                    degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                    cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                    cv2.putText(result_frame, f"L: {degree-90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
+
                             elif abs(leftmost[0]-downmost[0]) < abs(rightmost[0]-downmost[0]):
                                 if abs(topmost[1]-min(rightmost[1],leftmost[1]))>55:
                                     max_shape = "Right Forward"
@@ -153,6 +195,12 @@ def detect_and_draw_lines(video_source=0):
                                     bottom[0] = downmost[0]
                                     bottom[1] = downmost[1]
                                     cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                                    degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                    cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                    cv2.putText(result_frame, f"R: {degree+90}°", (20, 420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
                                 else:
                                     max_shape = "Right Turn"
                                     if abs(topmost[0]-rightmost[0])<200 or abs(topmost[0]-downmost[0])>200:
@@ -165,6 +213,11 @@ def detect_and_draw_lines(video_source=0):
                                     bottom[1] = downmost[1]
                                     cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
 
+                                    degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                                    cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                                    cv2.putText(result_frame, f"R: {degree+90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+
                     elif len(approx) >= 14:
                         max_shape = "Crossroad"
                         center[0] = (topmost[0]+downmost[0])//2
@@ -172,7 +225,13 @@ def detect_and_draw_lines(video_source=0):
                         cv2.circle(result_frame, (center[0],center[1]), 5, (30, 255, 255), 2)  # 黄色点
                         bottom[0] = downmost[0]
                         bottom[1] = downmost[1]
-                        # cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+                        cv2.circle(result_frame, (bottom[0],bottom[1]), 5, (30, 255, 255), 2)  # 黄色点
+
+                        degree = np.arctan(center[0]-bottom[0])/(center[1]-bottom[1])*360
+
+                        cv2.putText(result_frame, f"J: {(480-center[1])}m  {degree}°", (20, 380), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                        cv2.putText(result_frame, f"L: {degree-90}°", (20, 400), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
+                        cv2.putText(result_frame, f"R: {degree+90}°", (20, 420), cv2.FONT_HERSHEY_SIMPLEX, 0.5, (0, 255, 0), 1)
 
         # 绘制检测到的蓝色区域
         if max_contour is not None:
